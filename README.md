@@ -1,7 +1,7 @@
 # WebKing
-Troubled by exploits, ddos, malware? then WebKing is your best solution. A TCP mitigation and bot mitigation made from Node.Js and express.
-<br>
-Run your web server in a secure manner.
+WebKing is a web server source made from Node.Js and express. <br>
+Run your website in a safe way in these contemporary times. <br>
+WebKing ensures that no exploits, ddos, malware get through, be sure to keep an eye on this github for the next updates soon.
 
 # Installation
 npm i && node .

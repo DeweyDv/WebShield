@@ -1,5 +1,5 @@
-# WebKing
-WebKing is a web server source made from Node.Js and express. <br>
+# WebShield
+WebShield is a web server source made from Node.Js and express. <br>
 Run your website in a safe way in these contemporary times. <br>
 WebKing ensures that no exploits, ddos, malware get through, be sure to keep an eye on this github for the next updates soon. <br>
 This script allows to detect bots, hide your backend ip, rate limit, packet size and much more in new upcoming updates.

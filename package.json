@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DeweyDv/WebKing.git"
+    "url": "git+https://github.com/DeweyDv/WebShield.git"
   },
   "keywords": [
     "nodejs",
@@ -22,9 +22,9 @@
   "author": "Dewey",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DeweyDv/WebKing/issues"
+    "url": "https://github.com/DeweyDv/WebShield/issues"
   },
-  "homepage": "https://github.com/DeweyDv/WebKing#readme",
+  "homepage": "https://github.com/DeweyDv/WebShield#readme",
   "dependencies": {
     "express": "^4.18.2",
     "fs": "^0.0.1-security",

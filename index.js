@@ -1,22 +1,25 @@
+const cluster = require("cluster");
+const numCPUs = require("os").cpus().length;
 const express = require("express");
 const fs = require("fs");
 const os = require("os");
+
 const WebKingExpress = express();
 const requestCounts = {};
 
 var config = {
     port: 80, // host port
-    name: "WebKing", // response name if blocked
-    protection: true, // enable protection (recommed)
-    client_ssl: false, // request requires ssl
-    max_packet: 100001, // max packet size (bytes)
-    domains: [], // put in ./config/domains.txt
-    ip_block: [], // put in ./config/ipblocks.txt
+    name: "WebKing Shield",
+    protection: true,
+    client_ssl: false,
+    max_packet: 200,
+    domains: [],
+    ip_block: [],
 };
 
 var protection_config = {
-    rate_requests: 3, // requests
-    rate_requests_time: 1, // time
+    rate_requests: 8,
+    rate_requests_time: 1,
 };
 
 fs.readFile("./config/domains.txt", "utf-8", (err, data) => {
@@ -49,7 +52,7 @@ WebKingExpress.use((req, res, next) => {
         !config.domains.includes(req.headers.host) ||
         remote_packet > config.max_packet ||
         config.ip_block.includes(req.headers["x-forwarded-for"] || req.connection.remoteAddress) ||
-        requestCounts[remote_ip].filter((time) => currentTime - time < protection_config.rate_requests_time * 1000).length >= protection_config.rate_requests
+        requestCounts[remote_ip].filter((time) => currenttime - time < protection_config.rate_requests_time * 1000).length >= protection_config.rate_requests
     ) {
         return res.status(403).end(`Blocked at ${config.name}`);
     }
@@ -58,6 +61,16 @@ WebKingExpress.use((req, res, next) => {
 
 WebKingExpress.use(express.static("public"));
 
-WebKingExpress.listen(config.port, () => {
-    console.log(`WebKing listening on port ${config.port}`);
-});
+if (cluster.isMaster) {
+    console.log(`Master ${process.pid} is running`);
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+    cluster.on("exit", (worker, code, signal) => {
+        console.log(`worker ${worker.process.pid} died`);
+    });
+} else {
+    WebKingExpress.listen(config.port, () => {
+        console.log(`Worker ${process.pid} started WebKing listening on port ${config.port}`);
+    });
+}
